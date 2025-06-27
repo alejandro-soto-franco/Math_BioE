@@ -9,7 +9,7 @@
 This project draws inspiration from:
 
 - Measure-theoretic probability,
-- Functional analysis and \( L^p \)-spaces,
+- Functional analysis and $L^p$-spaces,
 - Weighted Laplacians (Witten-type),
 - Spectral geometry and variational calculus,
 - Biological applications: gene regulation, morphogen gradients, tissue energetics.
@@ -26,25 +26,25 @@ We adopt a structural approach:
 
 ### Local-to-Global Modeling
 
-- Expression profiles \( f(x) \in L^2(\mu) \)
-- Structural weighting via \( d\mu(x) = w(x)\, dx \)
-- Computation of weighted \( L^2 \)-norms and functional integrals
+- Expression profiles $f(x) \in L^2(\mu)$
+- Structural weighting via $d\mu(x) = w(x)\, dx$
+- Computation of weighted $L^2$-norms and functional integrals
 
 ### Spectral Geometry Tools
 
 - Discretization of Witten Laplacian:
-  \[
+  $$
   \Delta_w = \frac{1}{w(x)} \frac{d}{dx}\left( w(x) \frac{d}{dx} \right)
-  \]
+  $$
 - Eigenvalue problems: compute modes of biological diffusion
-- Orthonormal basis in \( L^2(w\, dx) \) for signal decomposition
+- Orthonormal basis in $L^2(w\, dx)$ for signal decomposition
 - Visualization of spectral basis functions
 
 ### Biological Interpretability
 
-- Map structural weights \( w(x) \) to energy, accessibility, or repression fields
+- Map structural weights $w(x)$ to energy, accessibility, or repression fields
 - Quantify regulatory burden as a spectral energy
 - Use eigenmodes for clustering, signal smoothing, or network control
 
-
+## Repository Structure
 
