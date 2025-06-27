@@ -24,13 +24,13 @@ We adopt a structural approach:
 
 ## Features
 
-### 🔬 Local-to-Global Modeling
+### Local-to-Global Modeling
 
 - Expression profiles \( f(x) \in L^2(\mu) \)
 - Structural weighting via \( d\mu(x) = w(x)\, dx \)
 - Computation of weighted \( L^2 \)-norms and functional integrals
 
-### 🧮 Spectral Geometry Tools
+### Spectral Geometry Tools
 
 - Discretization of Witten Laplacian:
   \[
@@ -40,11 +40,11 @@ We adopt a structural approach:
 - Orthonormal basis in \( L^2(w\, dx) \) for signal decomposition
 - Visualization of spectral basis functions
 
-### 🧠 Biological Interpretability
+### Biological Interpretability
 
 - Map structural weights \( w(x) \) to energy, accessibility, or repression fields
 - Quantify regulatory burden as a spectral energy
 - Use eigenmodes for clustering, signal smoothing, or network control
 
-## Repository Structure
+
 
