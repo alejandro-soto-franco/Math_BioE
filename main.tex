@@ -1,0 +1,120 @@
+% ------------------------------------------------------------
+% main.tex — Mathematical Foundations of Bioengineering
+% Author: Alejandro José Soto Franco et al.
+% ------------------------------------------------------------
+
+\input{preamble}
+
+\begin{document}
+
+% ------------------------------------------------------------
+% Custom Title Page
+% ------------------------------------------------------------
+
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\fontsize{18pt}{20pt}\selectfont\scshape
+Mathematical Foundations of Bioengineering\par}
+\vspace{0.5cm}
+{\large\itshape Geometry, Dynamics, and Symbolic Structure\par}
+
+\vspace{1.8cm}
+
+{\normalsize
+\textsc{Alejandro Jos\'e Soto Franco}\textsuperscript{1} \\
+\textsc{Meher Dhiman}\textsuperscript{2} \\
+\textsc{Kevin Ji}\textsuperscript{3} \\
+}
+
+\vspace{1.5cm}
+\end{center}
+
+% Now left-aligned, smaller attribution block:
+{\scriptsize
+\begin{flushleft}
+\textsuperscript{1}Primary and corresponding author.\\ \hspace*{1.5em}\textit{Email:} \href{mailto:sotofranco.eng@gmail.com}{sotofranco.eng@gmail.com} \\
+\textsuperscript{2}Co-author: Content proof-reading and Python coding.\\
+ \hspace*{1.5em}\textit{Email:} \href{mailto:meherdhiman@gmail.com}{meherdhiman@gmail.com} \\
+\textsuperscript{3}Co-author: Mathematical proofs and symbolic logic.\\
+ \hspace*{1.5em}\textit{Email:} \href{mailto:kevinandberbiscool@gmail.com}{kevinandberbiscool@gmail.com} \\
+\end{flushleft}
+}
+
+\vspace{2cm}
+\begin{center}
+{\normalsize Last updated: \today\par}
+\end{center}
+
+\newpage
+
+% ------------------------------------------------------------
+% Abstract
+% ------------------------------------------------------------
+
+\begin{abstract}
+This volume develops the mathematical foundations of bioengineering with full formal rigor. We treat biological systems as geometric and dynamical objects, modeled across multiple scales using the languages of differential geometry, category theory, and variational calculus. Central to our formulation is the principle that biological form and function arise from symmetry, conservation, and topological structure. We unify diverse phenomena—morphogenesis, molecular signaling, fluid mixing, and tissue mechanics—under a symbolic, computable, and semantically coherent mathematical framework.
+
+The goal is not merely to describe but to derive: to show that life is not an exception to mathematics, but a profound expression of it.
+\end{abstract}
+
+\tableofcontents
+\pagebreak
+% ------------------------------------------------------------
+% Introduction
+% ------------------------------------------------------------
+
+\section*{Preface}
+
+This work is born of the conviction that the phenomena of life—its organization, motion, adaptation, and form—are fully amenable to the language of mathematics when that language is made expressive enough to meet them. Biology, in its multiscale richness, invites not simplification but expansion: an expansion of our formal vocabulary, our symbolic tools, and our geometric understanding. To meet this invitation, we build here a framework that brings the full weight of modern mathematics to bear on the structure and dynamics of living systems.
+
+The audience for this text is broad but precise: mathematicians, physicists, and engineers who seek to construct, not merely to model; who value abstraction not for its elegance alone but for its power to illuminate and derive. We assume fluency in real analysis, linear algebra, and the differential calculus of functions and fields. Familiarity with differential geometry, measure theory, and variational principles will support a deeper engagement, but all necessary structures are developed as needed from clear foundations.
+
+The approach taken here is integrative and axiomatic. We draw from differential geometry, category theory, symbolic logic, and continuum mechanics in the goal of pursuing a unified semantic framework. The living systems we study are represented as manifolds with structure, equipped with flows, fields, and generative rules. The mathematics is made to fit the biology via principled generalization.
+
+At the heart of this framework lies a symbolic calculus for biological form and function. Typed, compositional, and executable, it permits biological expressions to be written and manipulated with the same clarity and rigor afforded to physical theories. From morphogen gradients to tissue dynamics, from genetic regulation to fluid transport, the language we build seeks to unify scale and structure into a coherent formalism.
+
+Every definition in this text is chosen for its role in a broader architecture. Every theorem contributes to a semantic scaffold on which future biological theory can be constructed. We aim not to describe biology from the outside, but to inhabit its structure from within, using mathematics as the interior language of organization.
+
+This book is the beginning of that language. It is a foundation—selective, principled, and extensible—on which more complete theories may be built. It is an invitation to the reader to participate in a new program: one that views life as structured, meaningful, and ultimately lawful in the deepest mathematical sense.
+
+\begin{flushright}
+\textit{-- A.J.S.F. \\ 27 June 2025}
+\end{flushright}
+\pagebreak
+
+% ------------------------------------------------------------
+% Chapters
+% ------------------------------------------------------------
+
+\input{chapters/01_intro}
+\input{chapters/02_spaces}
+\input{chapters/03_dynamics}
+%\input{chapters/04_symmetry}
+%\input{chapters/04_variational}
+%\input{chapters/05_stochastic}
+%\input{chapters/06_structures}
+%\input{chapters/07_field_models}
+%\input{chapters/08_case_studies}
+
+% ------------------------------------------------------------
+% Appendices
+% ------------------------------------------------------------
+
+\appendix
+
+%\input{chapters/A_formalism}
+%\input{chapters/B_background}
+%\input{chapters/C_symbolic}
+
+% ------------------------------------------------------------
+% References
+% ------------------------------------------------------------
+
+\newpage
+\bibliographystyle{amsalpha}
+\bibliography{references}
+
+\end{document}

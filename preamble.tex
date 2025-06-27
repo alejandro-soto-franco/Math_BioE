@@ -1,0 +1,188 @@
+% ------------------------------------------------------------
+% preamble.tex — Mathematical Bioengineering Foundation
+% Rigorous, semantically aware LaTeX preamble
+% ------------------------------------------------------------
+
+\documentclass[11pt,reqno]{amsart}
+
+% -----------------------------
+% Encoding, Font, and Language
+% -----------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% -----------------------------
+% Geometry and Spacing
+% -----------------------------
+\usepackage[a4paper, margin=1in]{geometry}
+\linespread{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% -----------------------------
+% Mathematical Environments
+% -----------------------------
+\usepackage{amssymb,amsmath,amsthm,mathtools}
+\usepackage{stmaryrd}     % semantic brackets, etc.
+\usepackage{mathrsfs}     % script fonts
+\usepackage{dsfont}       % indicator functions
+\usepackage{bm}           % bold math symbols
+
+% Theorem Styles (rigorous, clean)
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{construction}[theorem]{Construction}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observation}[theorem]{Observation}
+
+% Proof environment
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% -----------------------------
+% Custom Mathematical Operators
+% -----------------------------
+\usepackage{esint}  % for \fint
+\usepackage{physics} % for \dv, \grad, \curl
+\usepackage{tensor}  % tensor notation
+\usepackage{xparse}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Ent}{Ent}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Man}{\mathbf{Man}}
+\newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\Vect}{\mathbf{Vect}}
+\newcommand{\Sh}{\mathbf{Sh}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+
+\newcommand{\scrF}{\mathscr{F}}
+\newcommand{\scrL}{\mathscr{L}}
+
+% -----------------------------
+% Category Theory and Diagrams
+% -----------------------------
+\usepackage{tikz}
+\usetikzlibrary{cd,arrows.meta,decorations.markings}
+\usepackage{tikz-cd} % commutative diagrams
+
+% Nice arrows
+\tikzset{
+  symbol/.style={
+    draw=none,
+    every to/.append style={
+      edge node={node [sloped, anchor=center, auto=false] {#1}}
+    }
+  }
+}
+
+% -----------------------------
+% Cross References and Links
+% -----------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=red!50!black,
+    urlcolor=purple!50!black,
+    pdftitle={Mathematical Foundations of Bioengineering},
+    pdfauthor={A.J. Soto Franco},
+    pdfkeywords={mathematical biology, differential geometry, category theory, variational mechanics, bioengineering},
+}
+
+% Clever references
+\usepackage[capitalise,noabbrev]{cleveref}
+\crefformat{equation}{(#2#1#3)}
+
+% -----------------------------
+% Custom Commands for Structure
+% -----------------------------
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+\newcommand{\note}[1]{\marginpar{\small \textcolor{blue}{#1}}}
+\newcommand{\term}[1]{\textbf{#1}} % For introducing defined terms
+
+% Typographic embellishment for emphasis
+\newcommand{\highlight}[1]{\textcolor{blue!70!black}{#1}}
+
+% Example: semantic brackets for denotation
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+
+% -----------------------------
+% Document Metadata Macros
+% -----------------------------
+
+\usepackage{titlesec}
+% ------------------------------------------------------------
+% Big section headings for numbered sections only
+% Quiet defaults for unnumbered sections
+% ------------------------------------------------------------
+\titleformat{\section}
+  {\Huge\bfseries}  % formatting
+  {\thesection}                % number label (e.g., "1")
+  {1em}                        % spacing between number and title
+  {}                           % before title (none)
+
+% Keep unnumbered (\section*) small (defaults are fine)
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\itshape}
+  {\thesubsubsection}{1em}{}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\setlength{\headsep}{20pt}  % default is ~15pt, increase as needed
+
+% Clear default header and footer
+\fancyhf{}
+
+% Outer page numbers
+\fancyfoot[C]{\vspace{1em} \\ \thepage}
+
+% Book title on even pages (left header)
+\fancyhead[LE]{\textsc{Mathematical Foundations of Bioengineering}}
+
+% Section title on odd pages (right header)
+\fancyhead[RO]{\nouppercase{\rightmark}}
+
+\setcounter{tocdepth}{3}

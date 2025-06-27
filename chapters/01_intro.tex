@@ -1,0 +1,62 @@
+% ------------------------------------------------------------
+% 00_intro.tex — Introduction
+% ------------------------------------------------------------
+
+\section{Introduction}
+
+Mathematical bioengineering seeks to endow biological systems with precise mathematical representations that respect their inherent structure, scale, and dynamics. It is neither the numerical modeling of empirical data nor the heuristic construction of biological analogues; it is the formal encoding of life-like phenomena into a compositional language that admits derivation, proof, and prediction.
+
+The aim of this text is to lay the foundations of such a language. We present a unified framework in which biological systems are expressed as structured geometric entities: manifolds equipped with flows, fibers, and symbolic grammars. The treatment draws upon modern mathematical tools while remaining grounded in concrete biological motivation.
+
+\subsection{What is Mathematical Bioengineering?}
+
+Mathematical bioengineering is the development of a precise, formal language for describing the structure and behavior of living systems. It is not a collection of approximations or curve-fits. It is not simulation for its own sake. It is the mathematical study of how biological form, function, and feedback emerge from geometry, dynamics, and logic.
+
+At its core, it is the synthesis of three pillars:
+
+\begin{itemize}
+  \item \textbf{Geometric modeling}, which treats biological forms—membranes, tissues, cell aggregates—as manifolds, bundles, and embedded spaces with curvature, boundaries, and topological features.
+  
+  \item \textbf{Dynamical structure}, which encodes how those forms change—how they move, grow, deform, and respond—through differential equations, transport operators, and variational principles that reflect internal constraints and external forces.
+  
+  \item \textbf{Semantic computation}, which treats the logic of biology—gene regulation, pattern formation, control circuits—as symbolic and typed objects that can be reasoned about, transformed, and verified with mathematical precision.
+\end{itemize}
+
+This framework does not treat biology as noise around a statistical baseline. It treats biology as a generative system—structured, local, and composable. Every field, flow, and network we introduce is a well-typed mathematical object. Every model carries with it a syntax and a semantics. This allows us to move beyond vague analogies and write down the geometry and computation of life in clear mathematical terms.
+
+\subsection{Mathematics as the Internal Language of Biology}
+
+Biology is not chaos. It is structure, recurrence, and selection under constraint. As such, it admits a mathematics that is not imposed externally, but which arises internally from the generative mechanisms of life itself. Our thesis is that this mathematics is geometric, symbolic, and categorical in nature.
+
+In this view, an epithelial sheet is not just a surface, but a 2-manifold embedded in space, evolving under curvature-constrained flows. A gene regulation system is not merely a network, but a diagram of typed transformations, interpreted within a functorial semantic space. A morphogen gradient is not just a scalar field, but a section of a fibered potential landscape governed by boundary conditions and transport symmetries.
+
+The mathematical objects introduced in this text are chosen not for convenience but for their fidelity to the principles of biological construction. They obey the axioms of the systems they describe.
+
+\subsection{On the Structure of This Text}
+
+This work is modular and compositional. Each chapter introduces a distinct mathematical layer:
+\begin{itemize}
+  \item Chapter 1 defines the topological and geometric structures necessary for modeling biological space.
+  \item Chapter 2 develops the theory of biological dynamics via vector fields, flows, and Lagrangian principles.
+  \item Chapter 3 formalizes symmetry and conservation laws in biological systems.
+  \item Chapter 4 introduces variational structures and field equations.
+  \item Chapter 5 constructs stochastic extensions and measure-theoretic dynamics.
+  \item Chapter 6 encodes semantic structure using type theory and category theory.
+  \item Chapter 7 applies this framework to continuum models of tissue and material systems.
+  \item Chapter 8 presents case studies, unifying these tools into applied biological constructions.
+\end{itemize}
+
+Each part builds upon the last, but the system is not strictly linear. The reader may consult individual sections as references, as the architecture is designed to be composable.
+
+\subsection{Notation and Conventions}
+
+Unless otherwise stated:
+\begin{itemize}
+  \item $\RR^n$ denotes $n$-dimensional Euclidean space.
+  \item $M, N$ denote smooth manifolds, possibly with boundary.
+  \item $\mathcal{F}, \mathscr{F}$ denote function spaces or sheaves.
+  \item $\pi: E \to B$ denotes a fiber bundle with total space $E$ and base $B$.
+  \item $\delta$, $\nabla$, and $\mathcal{L}_v$ denote variational, covariant, and Lie derivative operators respectively.
+\end{itemize}
+
+We will adopt geometric and variational notation where appropriate, and use type annotations when symbolic computation is involved. We now begin with the mathematical representation of biological space.

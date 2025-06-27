@@ -1,0 +1,232 @@
+% ------------------------------------------------------------
+% 01_spaces.tex — From Sets and Categories to Biologically Relevant Objects
+% ------------------------------------------------------------
+
+\newpage
+\section[From Sets and Categories to Biologically Relevant Objects]{From Sets and Categories to \\ Biologically Relevant Objects}
+
+The foundations of mathematical bioengineering must begin not with empirical models, but with the primitives of structure: sets, functions, and categories. These serve as the syntactic base upon which all subsequent notions---spaces, fields, flows, and organisms---are constructed. In this chapter, we define the minimal mathematical ontology necessary to construct the objects of biological interest.
+
+\subsection{Sets, Functions, and Indexed Families}
+
+We begin with the category \textbf{\textsf{Set}} of sets and functions, which serves as the foundational framework for virtually all modern mathematical formalizations \cite{maclane_categories_2010}. Objects in this category are sets, and morphisms are total functions between them. A set $X$ is understood as a collection of distinct elements, often written in roster form as $X = \{x_1, x_2, \dots\}$ or described by a defining property. A function $f : X \to Y$ is a rule that assigns to each element $x \in X$ a unique image $f(x) \in Y$; this map must be well-defined and single-valued.
+
+The category \textsf{Set} forms the backdrop for much of elementary mathematics, but also underlies more advanced constructions in logic, algebra, and geometry. Many biological systems, although complex, can be initially abstracted to constructions over sets and functions. For example, a population of cells can be represented by a set $C$ whose elements are individual cells, and a function $s : C \to \Sigma$ may assign to each cell its current state in some state space $\Sigma$.
+
+However, biological data is rarely homogeneous. It is frequently indexed or parameterized by additional context such as space, time, developmental stage, or anatomical compartment. To formally express such contextual variation, we make use of \textbf{indexed families}, which generalize the notion of a collection by attaching to each index a specific set, rather than grouping all data into a single undifferentiated set.
+
+\begin{definition}[Indexed Family]
+Let $I$ be a set, referred to as the index set. An \emph{$I$-indexed family of sets} is a function
+\[
+F : I \to \textsf{Set},
+\]
+which assigns to each element $i \in I$ a set $F(i)$. The collection $\{F(i)\}_{i \in I}$ represents a variable family of sets parameterized by $I$.
+\end{definition}
+
+This construction can be viewed from multiple perspectives:
+\begin{itemize}
+  \item As a dependent type: for each $i \in I$, there is a different type $F(i)$ of data that is appropriate at position $i$;
+  \item As a fibered object: the function $F$ defines a fibration over $I$, where each fiber $F(i)$ contains the values associated with index $i$;
+  \item As a functor: treating $I$ as a discrete category, $F$ is a functor from $I$ into $\textsf{Set}$, assigning to each object $i$ a set and to each morphism $\mathrm{id}_i$ the identity map on $F(i)$. 
+\end{itemize}
+
+\pagebreak
+
+This notion is particularly relevant in biological modeling. For example:
+\begin{itemize}
+  \item If $I$ is a set of spatial positions within a tissue, then $F(i)$ may represent the set of molecular configurations at site $i$;
+  \item If $I$ is a set of time points during development, then $F(i)$ could denote the space of phenotypic states attainable at time $i$;
+  \item If $I$ indexes cell identities in a lineage tree, $F(i)$ may describe the gene expression profile or mechanical state of the corresponding cell.
+\end{itemize}
+
+Indexed families formalize the idea that data can vary along a base domain, and that this variation is not necessarily uniform. This is essential in biology, where measurements are often localized, heterogeneous, and context-dependent. The function $F$ allows the modeler to keep track of how the structure of data changes with the indexing variable, rather than collapsing all data into a single set that ignores contextual dependency.
+
+Indexed families also serve as a bridge to more general categorical constructions. When the index set $I$ is replaced by an arbitrary small category $\mathcal{I}$, a functor $F : \mathcal{I} \to \textsf{Set}$ defines a \emph{diagram of sets}, which can capture both variation and dependency between elements of $I$. This generalization enables us to model more intricate phenomena, such as branching processes, temporal dynamics, or spatial refinement, by encoding relationships between the indexing contexts themselves.
+
+Moreover, the concept of an indexed family is intimately tied to the notion of a \emph{bundle} in differential geometry and topology. Just as a vector bundle assigns to each point of a base space a vector space (the fiber over that point), an indexed family assigns to each index an abstract set, which may later be refined into algebraic or geometric structures. This analogy will be developed further when we consider fibered categories, sheaves, and bundles as models of biological data distributed over space or evolving over time.
+
+From a computational perspective, indexed families correspond to dependent data types: types that are parameterized by values, common in dependently typed languages and formal verification frameworks. Such encodings are particularly important in biological computation, where one may wish to reason about properties that vary by spatial location, cell identity, or environmental context, and where the correctness of interactions depends on well-typedness across those domains \cite{pierce_types_2002}.
+
+Thus, the concept of an indexed family plays a foundational role in building semantic models of biology that respect the compositional, local, and hierarchical nature of living systems. It provides a rigorous and flexible scaffolding upon which higher-order mathematical structures may be layered.
+
+\subsection{Categories and Functors}
+
+The language of category theory provides a unifying formalism in which structures, transformations, and processes can be encoded at the same level of abstraction. In contrast to set theory, which emphasizes membership, category theory emphasizes structure-preserving relationships. This is particularly aligned with the goals of mathematical bioengineering, where we seek not only to model biological data, but to model the logic and behavior of biological transformations.
+
+\begin{definition}[Category \cite{maclane_categories_2010}]
+A \emph{category} $\mathcal{C}$ consists of the following data:
+\begin{itemize}
+  \item A class of \emph{objects}, denoted $\mathrm{Ob}(\mathcal{C})$;
+  \item For each ordered pair of objects $(A, B)$, a set of \emph{morphisms} (or arrows) $\mathrm{Hom}_{\mathcal{C}}(A, B)$ from $A$ to $B$;
+  \item For each triple $(A, B, C)$ of objects, a binary operation called \emph{composition}
+    \[
+    \circ : \mathrm{Hom}(B, C) \times \mathrm{Hom}(A, B) \to \mathrm{Hom}(A, C),
+    \]
+    which assigns to each composable pair $(g, f)$ a morphism $g \circ f$;
+  \item For each object $A$, a distinguished morphism $\mathrm{id}_A : A \to A$ called the \emph{identity morphism}.
+\end{itemize}
+This data must satisfy two axioms:
+\begin{itemize}
+  \item \emph{Associativity}: If $f : A \to B$, $g : B \to C$, and $h : C \to D$, then $h \circ (g \circ f) = (h \circ g) \circ f$;
+  \item \emph{Identity laws}: For every morphism $f : A \to B$, we have $\mathrm{id}_B \circ f = f = f \circ \mathrm{id}_A$.
+\end{itemize}
+\end{definition}
+
+A category may be seen as a minimal algebra of structure and transformation. It encodes not only the static objects of study but also the rules by which these objects relate, transform, or evolve. In biological contexts, categories may encode:
+\begin{itemize}
+  \item Types of spatial regions, tissues, or cell types;
+  \item Morphisms representing biological processes such as differentiation, signaling, or transport;
+  \item Higher-level transformations such as symmetries, feedback, or compositional rewiring.
+\end{itemize}
+
+For example, one may define a category $\mathcal{T}$ whose objects are tissue regions and whose morphisms are smooth embeddings or deformations. Alternatively, a category of developmental stages may be built whose morphisms encode time-ordered transitions or epigenetic transformations.
+
+\begin{definition}[Functor \cite{awodey_category_2010}]
+Let $\mathcal{C}$ and $\mathcal{D}$ be categories. A \emph{functor} $F : \mathcal{C} \to \mathcal{D}$ consists of:
+\begin{itemize}
+  \item A function on objects: for each object $A \in \mathrm{Ob}(\mathcal{C})$, an image object $F(A) \in \mathrm{Ob}(\mathcal{D})$;
+  \item A function on morphisms: for each morphism $f : A \to B$ in $\mathcal{C}$, a morphism $F(f) : F(A) \to F(B)$ in $\mathcal{D}$;
+\end{itemize}
+such that:
+\begin{itemize}
+  \item $F(\mathrm{id}_A) = \mathrm{id}_{F(A)}$ for all $A \in \mathcal{C}$;
+  \item $F(g \circ f) = F(g) \circ F(f)$ for all composable $f, g$.
+\end{itemize}
+\end{definition}
+
+Functors preserve the compositional and identity structure of categories. They are the morphisms \emph{between} categories and thus allow us to reason about systems at a meta-level.
+
+Functors serve several roles in mathematical bioengineering:
+
+{\it 1. Structural interpretation.} A functor may be used to \emph{realize} an abstract biological model into a concrete computational system. For instance, a functor from a category of gene regulatory diagrams to a category of differential equations gives semantics to the abstract topology of the regulatory network.
+
+{\it 2. Temporal evolution.} Consider a category $\mathcal{T}$ whose objects are time points and whose morphisms are time intervals. A biological system evolving over time can be modeled as a functor $F : \mathcal{T} \to \mathcal{S}$, where $\mathcal{S}$ is a category of state configurations. This describes how system states change as time progresses.
+
+{\it 3. Spatial organization.} Let $\mathcal{O}(M)$ be the poset of open sets on a manifold $M$ (e.g., a tissue). A functor $\mathscr{F} : \mathcal{O}(M)^{\mathrm{op}} \to \textsf{Set}$ assigns data to regions of space and restriction maps to inclusions. This is the foundation of presheaf theory.
+
+{\it 4. Experimental semantics.} One may define a functor from a category of experimental conditions to a category of observable outcomes. This formalizes how different perturbations map to system responses.
+
+{\it 5. Modular construction.} Biological systems are highly modular. Categories and functors allow one to treat modules as objects with well-defined interfaces and to compose them via categorical operations such as colimits or pushouts.
+
+\vspace{1em}
+
+Just as functions are maps between sets, functors are maps between categories. And just as a function preserves the structure of its domain (via its graph or continuity, in the topological sense), a functor preserves the compositional structure of the system it represents. In this way, functors allow one to lift structure-preserving transformations from one level of abstraction to another.
+
+In later chapters, we will encounter several categorical constructions—limits, colimits, adjunctions, and sheafifications—that depend on the interaction of categories and functors. Each of these will serve as tools for encoding, decomposing, or approximating biological phenomena in ways that are formally sound and computationally viable.
+
+
+\subsection{Typed Structures and Presheaves}
+
+Many biological observables are local in nature. That is, they depend on or vary with spatial or temporal context. For example, gene expression is often spatially restricted to a subset of a cellular population; morphogen concentrations are defined over subdomains of a tissue; curvature is computed pointwise along an embedded membrane. The mathematical formalism required to encode such locally varying data is that of \emph{presheaves}, which are functorial assignments from regions or contexts to sets of observables.
+
+\begin{definition}[Presheaf {\cite{maclane_sheaves_1992}}]
+Let $\mathcal{C}$ be a small category, often taken to be a poset $(\mathcal{U}, \subseteq)$ representing a basis for a topology or a cover of a geometric object. A \emph{presheaf} on $\mathcal{C}$ is a contravariant functor
+\[
+\mathscr{F} : \mathcal{C}^{\mathrm{op}} \to \textsf{Set},
+\]
+assigning to each object $U \in \mathcal{C}$ a set $\mathscr{F}(U)$, and to each morphism $f : V \to U$ in $\mathcal{C}$ (often an inclusion $V \subseteq U$), a \emph{restriction map}
+\[
+\mathscr{F}(f) : \mathscr{F}(U) \to \mathscr{F}(V),
+\]
+satisfying $\mathscr{F}(\mathrm{id}_U) = \mathrm{id}_{\mathscr{F}(U)}$ and $\mathscr{F}(g \circ f) = \mathscr{F}(f) \circ \mathscr{F}(g)$ for all composable morphisms $W \xrightarrow{g} V \xrightarrow{f} U$.
+\end{definition}
+
+The value $\mathscr{F}(U)$ may be interpreted as the set of sections, measurements, or states associated to the region $U$. The functoriality condition ensures that restriction to subcontexts is consistent with the categorical structure of $\mathcal{C}$. In this sense, a presheaf encodes the assignment of data to varying biological contexts in a way that respects localization and composability.
+
+Presheaves provide a canonical formalism for expressing context-dependent types. For instance:
+\begin{itemize}
+  \item Let $M$ be a smooth manifold representing a biological tissue. Let $\mathcal{U}$ be an open cover of $M$, partially ordered by inclusion. A presheaf $\mathscr{F} : \mathcal{U}^{\mathrm{op}} \to \textsf{Set}$ may assign to each $U \subseteq M$ the set of morphogen profiles or gene expression vectors over $U$.
+  
+  \item If the values $\mathscr{F}(U)$ are not just sets but carry additional structure (e.g., vector spaces, algebras), then $\mathscr{F}$ may be defined as a functor into $\textsf{Vect}_k$ or another structured category. This permits modeling biochemical signal spaces with linear response properties.
+  
+  \item A time-varying tissue with changing topology may be modeled using a presheaf over a base category $\mathcal{C}$ encoding temporal slices and morphisms encoding temporal transitions or refinements of spatial data.
+\end{itemize}
+
+In general, for biological semantics, presheaves are used to encode \emph{typed observables}. A type $\tau$ may vary over space, so we define a presheaf $\mathscr{T} : \mathcal{C}^{\mathrm{op}} \to \textsf{Type}$ (or some slice category of types) so that $\mathscr{T}(U)$ specifies the types of data admissible over region $U$. The pairing of a type presheaf and a value presheaf $(\mathscr{T}, \mathscr{F})$ defines a \emph{typed fibered system}, whereby each local datum is constrained not only by position but by its semantic classification.
+
+Presheaves can be enriched further:
+\begin{itemize}
+  \item A \emph{sheaf} is a presheaf that satisfies gluing and locality axioms: given a cover $\{ U_i \}_{i \in I}$ of $U$ and compatible sections $s_i \in \mathscr{F}(U_i)$ such that $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$, there exists a unique section $s \in \mathscr{F}(U)$ restricting to $s_i$ on each $U_i$.
+  
+  \item A \emph{prestack} generalizes this by encoding more structure into the morphism spaces (e.g., categories of sections), relevant for systems with moduli or symmetry groupoids.
+\end{itemize}
+
+In symbolic biological modeling, one may define:
+\[
+\text{Obs} : \mathcal{O}^{\mathrm{op}} \to \textsf{Set}
+\]
+where $\mathcal{O}$ is a category of biological contexts (e.g., open tissue domains, cell identities, or developmental stages), and $\text{Obs}(U)$ is the set of semantically typed observables defined over $U$.
+
+Such constructions integrate directly with higher-level formalizations involving dependent types, fibered categories, or even sheaf cohomology when modeling topological constraints in signal propagation or morphogenetic potentials \cite{spivak_category_2014, joyal_sheaves_1993, jacobson_sheavesbio_2018}.
+
+We will return to presheaves throughout the text, treating them as foundational structures for modeling measurable, composable, and semantically coherent biological variation across spatial and logical domains.
+
+\subsection{From Abstract Structure to Biological Semantics}
+
+The function of category theory in the modeling of biological systems is not merely descriptive abstraction but semantic construction. That is, we do not invoke categorical structures for elegance alone, but because they offer a formal language in which the generative and hierarchical architecture of living systems can be faithfully encoded, manipulated, and reasoned about.
+
+Given a biological object $B$, such as a signaling system, tissue, regulatory network, or morphogenetic process, the first act of formalization is to identify the domain over which it is defined. This is often modeled as a base category or index space $I$, representing contexts such as time, spatial domain, hierarchical organization, or lineage.
+
+\begin{itemize}
+  \item If $I$ is a poset of open subsets of a tissue manifold, $B$ may be described as a presheaf of measurements or states over $I$.
+  \item If $I$ is a discrete time category $\mathbf{Time}$ with objects $t_0, t_1, \dots$, then $B$ may be modeled as a functor $F : \mathbf{Time} \to \mathcal{S}$, where $\mathcal{S}$ encodes system states or phenotypic configurations.
+  \item If $I$ encodes a branching developmental lineage, it may be organized into a tree-like category or groupoid over which cell-type transitions or genetic states are functorially lifted.
+\end{itemize}
+
+Once the indexing category $I$ is chosen, we assign to each object $i \in \mathrm{Ob}(I)$ a set or structured type $B(i)$ describing the local state of the system at that index. This gives rise to a functor
+\[
+B : I \to \mathsf{Type},
+\]
+or, when the system is contravariant in nature (e.g., measurement restriction, localization),
+\[
+B : I^{\mathrm{op}} \to \mathsf{Type},
+\]
+which defines the semantic content of the biological object across its domain of variation.
+
+To model interaction, inheritance, or propagation of structure, the functoriality condition is essential: for every morphism $f : i \to j$ in $I$, there exists a map $B(f) : B(i) \to B(j)$ or $B(f) : B(j) \to B(i)$, depending on variance, capturing the transformation of biological information across scale, time, or space.
+
+This gives rise to a collection of canonical categorical constructs recurring in biological applications:
+
+\begin{itemize}
+  \item \textbf{Signaling gradients.} Let $M$ be a smooth manifold representing a tissue, and let $\mathcal{O}(M)$ be its poset of open sets. A signaling molecule’s concentration may be modeled as a presheaf $\mathscr{F} : \mathcal{O}(M)^{\mathrm{op}} \to \mathsf{Set}$, where $\mathscr{F}(U)$ gives concentration values over $U$ and morphisms $V \subseteq U$ induce restriction maps. This structure preserves locality and enables differential operators to be defined sheaf-theoretically.
+  
+  \item \textbf{Feedback networks.} Consider a category $\mathcal{C}_{\text{ctrl}}$ encoding dynamical systems with feedback loops, such as control diagrams or signal flow graphs. A biological network may be modeled as a diagram $D : G \to \mathcal{C}_{\text{ctrl}}$, where $G$ is a directed graph encoding causal relations among variables or agents. Functoriality ensures composability and behavioral consistency under subsystem integration.
+  
+  \item \textbf{Developmental programs.} Let $\mathbf{Dev}$ be a category representing developmental stages (e.g., via time or lineage progression), and $\mathcal{S}$ a state space category (e.g., cell configurations). A developmental program is a functor $P : \mathbf{Dev} \to \mathcal{S}$ capturing the temporal unfolding of structural form. This structure supports the analysis of morphogenesis via functor cohomology or natural transformations encoding perturbations.
+  
+  \item \textbf{Gene regulatory architectures.} Let $\mathcal{G}$ be a quiver (directed multigraph) encoding transcription factor binding and regulation, and let $\mathcal{D}\mathcal{S}$ be a category of dynamical systems (e.g., ODEs, boolean networks). A semantic functor $F : \mathcal{G} \to \mathcal{D}\mathcal{S}$ interprets each node as a gene and each edge as a regulatory interaction with functional semantics. This allows modular interpretation, simulation, and refinement of genetic models.
+\end{itemize}
+
+The goal of this categorical modeling is not to merely encode static information, but to produce systems that support reasoning, inference, and composition. That is, given a collection of biological subsystems modeled functorially, their colimits, limits, or Kan extensions represent coherent ways of assembling, extending, or summarizing behavior across scales or contexts.
+
+To this end, we adopt a philosophy of \emph{typed semantics}. That is, each biological observable is interpreted not merely as an element in a set, but as a typed object in a structured category. The space of types forms a semantic base, and biological objects are modeled as sections or functors over this base. The resulting semantics are compositional (via categorical limits and colimits), localizable (via sheaf and presheaf structures), and machine-verifiable (via typed symbolic encodings). By grounding biological modeling in this categorical and type-theoretic foundation, we enable a rigorous semantics for dynamic, multiscale, and spatially distributed systems. 
+
+
+\subsection{Biological Objects}
+
+Before we begin constructing formal definitions, it is worth asking: what kind of things are we actually trying to describe?
+
+Biological objects are not arbitrary. They are structured, organized, and constrained. A single cell is not just a bag of molecules, but a system of compartments, membranes, and signaling pathways. A tissue is not just a group of cells, but a cohesive material with forces, flows, and internal symmetries. A gene network is not just a graph of interactions, but a dynamic logic, executed across time and embedded in space.
+
+What distinguishes biological objects is their combination of structure and behavior. They are not static like geometric solids, and not purely computational like abstract machines. They are physical systems that process information, maintain form, and respond to changes in their environment. They grow, divide, repair, and differentiate. They carry memory. They enforce boundaries. They coordinate across scales.
+
+To model these systems mathematically, we must capture more than just quantities. We must account for geometry, transformation, locality, and interaction. A “biological object” in our sense is not a single shape or variable, but a scaffold of interdependent parts, evolving according to internal rules and external influences. It might include:
+
+\begin{itemize}
+  \item A base space: the spatial or temporal domain over which the system is defined;
+  \item An internal structure: what kinds of data, states, or materials inhabit each region;
+  \item A dynamic rule: how the system changes, flows, or responds over time;
+  \item A compositional architecture: how the object interacts with others and how it can be assembled from parts.
+\end{itemize}
+
+For example, a developing embryo is not just a collection of cells, but a continuously transforming manifold of tissue, regulated by spatial gradients, mechanical forces, and gene expression programs. A neuron is not just a node in a graph, but a polarized, electrically active geometry with discrete signaling and continuous electrochemical flow.
+
+We begin from first principles not because biology lacks models, but because existing models are often domain-specific, inconsistent, or too empirical to explain deeper structure. Our goal is to formalize the idea that a biological object is a well-typed, semantically coherent mathematical construction: one that can be localized, composed, transformed, and analyzed with precision.
+
+In the chapters that follow, we will make this vision precise. But it begins here—with the simple recognition that biological systems are not chaotic or incidental. They are shaped by constraints, and those constraints can be written in mathematics.
+
+
+
+\medskip
+
+In the next chapter, we extend this framework by introducing differential and variational structures: manifolds, vector fields, flow operators, and action principles. These tools allow us to define and analyze the dynamics of biological systems as geometric flows on structured spaces.

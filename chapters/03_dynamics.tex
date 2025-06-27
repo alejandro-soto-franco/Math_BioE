@@ -1,0 +1,584 @@
+\newpage
+\section[Structure and Dynamics in Biological Systems]{Structure and Dynamics in \\ Biological Systems}
+\label{sec:structure_dynamics}
+
+Mathematical bioengineering requires a language not just of form, but of change. Biological systems are inherently dynamic: cells divide, tissues flow, chemical concentrations vary over time and space. In this section, we develop the mathematical apparatus needed to model such phenomena on structured spaces.
+
+\subsection{Manifolds as Biological Media}
+
+To describe curved and continuous biological spaces, we adopt the language of smooth manifolds. This framework permits the formulation of differential geometry on topologically nontrivial spaces and enables the modeling of complex biological morphologies with mathematical rigor.
+
+\begin{definition}[Smooth Manifold]
+A smooth manifold $M$ of dimension $n$ is a second-countable, Hausdorff topological space such that for every point $p \in M$, there exists an open neighborhood $U \subseteq M$ and a homeomorphism (called a chart) $\varphi : U \to \varphi(U) \subseteq \mathbb{R}^n$, where the image is open in $\mathbb{R}^n$. The collection of such charts forms an atlas, and the manifold is said to be smooth if all transition maps $\varphi_j \circ \varphi_i^{-1}$ between overlapping charts are smooth functions.
+\end{definition}
+
+This definition provides a formal setting in which to perform differential and integral calculus, as all computations are conducted locally in coordinate space and then translated globally through smooth compatibility of charts. The maximal smooth atlas ensures maximal differentiability wherever the manifold is defined.
+
+In biological systems, manifolds provide a natural abstraction for embedded spatial domains that exhibit curvature and connectivity but remain locally Euclidean. Examples include cellular membranes, epithelial sheets, cortical surfaces, folded protein domains, and embryonic tissues. Such structures are not flat in the ambient space but are locally diffeomorphic to open subsets of $\mathbb{R}^2$ or $\mathbb{R}^3$, allowing the differential geometry of curvature, vector fields, and flows to be meaningfully defined.
+
+Let $f : M \to \mathbb{R}$ be a smooth scalar field defined on the manifold. In a biological context, $f$ may represent quantities such as:
+
+\begin{itemize}
+\item A morphogen concentration, which determines positional information during tissue development;
+\item A temperature field, relevant in thermally mediated regulation of biochemical activity;
+\item A cell density function, capturing local population levels of cells across the tissue surface.
+\end{itemize}
+
+The local behavior of $f$ at each point of $M$ provides both geometric and biological insight, and its analysis involves several differential operators that arise from the manifold's smooth structure:
+
+\begin{itemize}
+\item The \textbf{differential} $df$ is a covector field (or 1-form) defined by $df_p : T_p M \to \mathbb{R}$, assigning to each tangent vector $v \in T_p M$ the directional derivative $df_p(v) = v(f)$. This operator captures the infinitesimal rate of change of $f$ at every point and in every direction.
+\item The \textbf{gradient vector field} $\nabla f$ is defined by raising the index of $df$ using the Riemannian metric $g$, such that $g(\nabla f, X) = df(X)$ for all smooth vector fields $X$. This vector field points in the direction of maximal increase of $f$ and has magnitude equal to the norm of $df$ with respect to $g$.
+\item The \textbf{Laplacian} $\Delta f$ is defined as the divergence of the gradient vector field, $\Delta f = \text{div}(\nabla f)$, and it quantifies the net flux density of the gradient flow at each point. It governs diffusion-like processes across the manifold and arises in equations of the form $\partial_t f = \Delta f + R(f, x)$, where $R$ denotes a reaction term.
+\end{itemize}
+
+Each of these operators is defined intrinsically using the geometric structure of the manifold. That is, they depend only on the differential structure and the Riemannian metric, and not on any particular embedding into Euclidean space.
+
+The use of smooth manifolds in biological modeling offers several advantages:
+
+\begin{itemize}
+\item Locality: Computations and dynamics are defined in terms of local coordinate charts, allowing models to be adapted to regions of interest.
+\item Geometric invariance: The formulation is independent of coordinate choice, which is critical when studying growth, deformation, or patterning in tissues that change shape over time.
+\item Compatibility with field theories: Vector fields, differential forms, and tensor fields can be naturally defined and manipulated on manifolds, supporting sophisticated models of elasticity, chemotaxis, and morphogenesis.
+\end{itemize}
+
+Furthermore, manifolds support the formal construction of additional geometric structures such as:
+
+\begin{itemize}
+\item \textbf{Tangent and cotangent bundles}, which describe local linear approximations and dual spaces;
+\item \textbf{Tensor fields}, such as stress or strain fields, which encode multi-directional physical properties;
+\item \textbf{Exterior differential forms}, used in modeling flux, circulation, and topological invariants;
+\item \textbf{Vector bundle-valued fields}, allowing for the incorporation of multicomponent biochemical or mechanical signals at each point.
+\end{itemize}
+
+These constructions provide a foundation for describing complex biological processes using coordinate-free, geometrically faithful mathematics. In particular, the theory enables the study of spatially extended regulatory networks, curvature-mediated transport, and the deformation of active materials.
+
+Subsequent sections will build upon this foundation to introduce curvature, flow fields, connections, and dynamical equations defined on manifolds. These tools will allow the formal modeling of biological development, signaling, and mechanics in structured and curved domains.
+
+
+\subsection{Vector Fields and Flows}
+
+Let $M$ be a smooth $n$-dimensional manifold. A \textbf{vector field} on $M$ defines a smoothly varying tangent vector at every point, representing infinitesimal displacements or directions of change.
+
+\begin{definition}[Vector Field]
+A vector field on $M$ is a smooth section $V : M \to TM$ of the tangent bundle, such that for each $p \in M$, the vector $V(p) \in T_p M$.
+\end{definition}
+
+{\it Local Expression.} In local coordinates $(x^1, \dots, x^n)$ on a chart $U \subseteq M$, a vector field $V$ has the form
+\begin{equation}\label{eq:vector_field_local}
+V = \sum_{i=1}^n V^i(x) \frac{\partial}{\partial x^i},
+\end{equation}
+where the $V^i : U \to \mathbb{R}$ are smooth scalar functions. Equation~\eqref{eq:vector_field_local} expresses $V$ in terms of a local frame of the tangent bundle, and permits coordinate-based computation of derivatives and flows.
+
+{\it Derivation Action.} Given $f \in C^\infty(M)$, a vector field acts as a derivation on functions:
+\begin{equation}\label{eq:vector_field_derivation}
+V[f] := df(V) = \sum_{i=1}^n V^i(x) \frac{\partial f}{\partial x^i}.
+\end{equation}
+This defines a first-order linear differential operator on the algebra of smooth functions. The space of vector fields $\mathfrak{X}(M)$ can thus be viewed as a subalgebra of derivations of $C^\infty(M)$.
+
+{\it Module Structure.} The set of all smooth vector fields on $M$ is denoted $\mathfrak{X}(M)$ and forms a module over $C^\infty(M)$. For any $f \in C^\infty(M)$ and $V \in \mathfrak{X}(M)$, the product $fV$ is a vector field given pointwise by scalar multiplication.
+
+{\it Lie Bracket.} The Lie bracket of two vector fields $V, W \in \mathfrak{X}(M)$ is the vector field $[V, W]$ defined by
+\begin{equation}\label{eq:lie_bracket}
+[V, W](f) := V(W[f]) - W(V[f]) \quad \text{for all } f \in C^\infty(M).
+\end{equation}
+This operation is bilinear, antisymmetric, and satisfies the Jacobi identity. It endows $\mathfrak{X}(M)$ with the structure of a Lie algebra, reflecting the noncommutativity of flows.
+
+A \textbf{flow} is a family of diffeomorphisms parameterized by time that solve an initial value problem associated with the vector field.
+
+\begin{definition}[Flow of a Vector Field]
+A \emph{flow} of $V$ is a smooth map $\phi : I \times M \to M$ for some interval $I \subseteq \mathbb{R}$ such that:
+\begin{align}
+\phi(0, x) &= x, \\
+\label{eq:flow_ode}
+\frac{d}{dt}\phi(t, x) &= V(\phi(t, x)).
+\end{align}
+\end{definition}
+
+The curve $t \mapsto \phi(t, x)$ is called the \emph{integral curve} through $x$, describing the trajectory of a point under the dynamical system defined by $V$. If the flow exists for all $t \in \mathbb{R}$, it defines a one-parameter group of diffeomorphisms $\{\phi_t\}$.
+
+{\it Biological Interpretation.} In biological systems, $V$ may represent the velocity of cellular motion, the direction of morphogen transport, the local tissue deformation field, or the flux of a biochemical species. The associated flow $\phi(t, x)$ models the evolution of a material point $x$ over time, capturing how internal or external forces shape spatial biological configurations.
+
+{\it Riemannian Setting.} If $M$ is equipped with a Riemannian metric $g$, then vector fields can be compared using the pointwise inner product $\langle V, W \rangle_g$, and the squared norm is given by
+\[
+\|V\|_g^2 = g(V, V).
+\]
+This setting enables the definition of physically meaningful quantities such as kinetic energy density, geodesic acceleration, and curvature-driven flows. Gradient vector fields and divergence operators are defined intrinsically using the Levi-Civita connection compatible with $g$.
+
+{\it Geometric Interpretation.} Vector fields generate infinitesimal transformations on $M$ and are the infinitesimal generators of diffeomorphism groups. Through their flows, they act on functions, tensors, and densities, giving rise to Lie derivatives. These structures form the backbone of geometric mechanics, symplectic flows, and transport theories on manifolds.
+
+{\it Extension to Bundles.} In many applications, particularly in biological modeling, it is necessary to consider vector fields not on $M$ directly, but on a fiber bundle $\pi : E \to M$. A \emph{projectable vector field} on $E$ is one whose projection onto $M$ is a vector field $V \in \mathfrak{X}(M)$, and whose flow preserves the fibration structure. This generalization permits the modeling of systems with internal degrees of freedom—such as orientation, polarity, or chemical state—assigned to each point of the base space.
+
+{\it Semantic Transport.} When biological structures are modeled as typed bundles or sheaves, vector fields can be interpreted as generating transformations not just in space but in semantic state. For instance, in a type-theoretic setting, the flow may update both spatial position and symbolic annotations, corresponding to dynamic biological processes like gene regulation or tissue differentiation under developmental cues.
+
+{\it Summary.} Vector fields serve as the infinitesimal engines of motion in smooth biological systems. Their flows describe how configurations evolve, how mass or information is transported, and how complex tissue architectures deform over time. When coupled with additional structure—such as metrics, connections, or fiber semantics—they form the basis for a fully geometric and semantic theory of biological dynamics.
+
+
+
+\subsection{Scalar Fields and Differential Operators via Jet Bundles}
+
+Let $M$ be a smooth $n$-dimensional manifold. A scalar field on $M$ is a smooth function $f : M \to \mathbb{R}$, modeling quantities such as pressure, morphogen concentration, or metabolic density. To encode not only the function values but also their derivatives, we employ the formalism of jet bundles.
+
+\begin{definition}[Jet Bundle of a Scalar Field]
+Let $J^k(M, \mathbb{R})$ denote the $k$-jet bundle of smooth maps from $M$ to $\mathbb{R}$. A $k$-jet $j^k_p f$ at a point $p \in M$ is an equivalence class of smooth functions that agree with $f$ at $p$ up to their $k$-th order partial derivatives. The total space $J^k(M, \mathbb{R})$ is a fiber bundle over $M$, and a smooth section of $J^k(M, \mathbb{R})$ corresponds to a scalar field equipped with derivative data up to order $k$.
+\end{definition}
+
+\textit{First-Order Structure.} The first jet bundle $J^1(M, \mathbb{R})$ encodes both the scalar value and its differential. The canonical projections are:
+\[
+\pi_0 : J^1(M, \mathbb{R}) \to M, \qquad \pi_1 : J^1(M, \mathbb{R}) \to T^*M.
+\]
+Given a section $f : M \to \mathbb{R}$, the 1-jet prolongation $j^1 f : M \to J^1(M, \mathbb{R})$ maps each point $p \in M$ to its value and first derivatives.
+
+\begin{definition}[Differential as a Jet Morphism]
+The differential of $f$ is the 1-form $df : M \to T^*M$ defined at each $p \in M$ by
+\begin{equation}
+\label{eq:differential_def}
+df_p(V) := V[f] = \left.\frac{d}{dt}\right|_{t=0} f(\gamma(t)),
+\end{equation}
+for any smooth curve $\gamma(t)$ with $\gamma(0) = p$, $\dot{\gamma}(0) = V \in T_p M$.
+\end{definition}
+
+\textit{Riemannian Gradient.} If $g$ is a Riemannian metric on $M$, it induces an isomorphism $g^\sharp : T^*M \to TM$ via index raising. The gradient $\nabla f$ is then the unique vector field satisfying
+\begin{equation}
+\label{eq:gradient_def}
+g(\nabla f, V) = df(V), \qquad \forall V \in \mathfrak{X}(M).
+\end{equation}
+In local coordinates $(x^1, \dots, x^n)$, this yields
+\begin{equation}
+\label{eq:gradient_local}
+\nabla f = \sum_{i,j=1}^n g^{ij} \frac{\partial f}{\partial x^j} \frac{\partial}{\partial x^i},
+\end{equation}
+where $g^{ij}$ is the inverse of the metric matrix $(g_{ij})$.
+
+\textit{Divergence of Vector Fields.} Let $X \in \mathfrak{X}(M)$ be a smooth vector field. The divergence of $X$ with respect to the Riemannian volume form $\mathrm{vol}_g$ is defined as:
+\begin{equation}
+\label{eq:divergence}
+\mathcal{L}_X \mathrm{vol}_g = (\operatorname{div} X) \cdot \mathrm{vol}_g,
+\end{equation}
+where $\mathcal{L}_X$ denotes the Lie derivative. In coordinates,
+\begin{equation}
+\label{eq:div_local}
+\operatorname{div}(X) = \frac{1}{\sqrt{|g|}} \sum_{i=1}^n \frac{\partial}{\partial x^i} \left( \sqrt{|g|} X^i \right),
+\end{equation}
+with $|g| = \det(g_{ij})$.
+
+\begin{definition}[Laplace--Beltrami Operator]
+The Laplace--Beltrami operator acting on a smooth scalar field $f$ is defined by
+\begin{equation}
+\label{eq:laplace_beltrami}
+\Delta f := \operatorname{div}(\nabla f).
+\end{equation}
+\end{definition}
+
+\textit{Local Expression.} In local coordinates, we compute
+\begin{equation}
+\label{eq:laplace_beltrami_local}
+\Delta f = \frac{1}{\sqrt{|g|}} \sum_{i,j=1}^n \frac{\partial}{\partial x^i} \left( \sqrt{|g|} g^{ij} \frac{\partial f}{\partial x^j} \right).
+\end{equation}
+
+\textit{Jet Interpretation.} Since $\Delta f$ involves second-order derivatives of $f$, it factors through the second jet bundle:
+\[
+\Delta : J^2(M, \mathbb{R}) \to \mathbb{R},
+\]
+and hence defines a smooth, fiberwise linear bundle morphism from $J^2(M, \mathbb{R})$ to the trivial bundle $M \times \mathbb{R}$. This makes the Laplace--Beltrami operator an intrinsic second-order differential operator on $M$.
+
+\textit{Geometric Role.} The operator $\Delta$ governs diffusion, curvature-driven flows, and harmonic constraints in biological systems. For instance:
+\begin{itemize}
+  \item Solutions of $\Delta f = 0$ are harmonic functions, minimizing the Dirichlet energy
+    \[
+    E[f] = \int_M \|\nabla f\|^2 \, \mathrm{vol}_g.
+    \]
+  \item The reaction--diffusion equation
+    \[
+    \frac{\partial u}{\partial t} = D \Delta u + R(u)
+    \]
+    models spatiotemporal patterns in morphogenesis and biochemical networks.
+\end{itemize}
+
+This formalism prepares the ground for variational analysis, Hodge theory, and covariant biological PDEs in the chapters that follow.
+
+
+
+\subsection{Reaction--Diffusion Systems on Riemannian Manifolds}
+
+A fundamental model for spatially extended biological processes is the reaction--diffusion system. Let $(M, g)$ be a Riemannian manifold representing the spatial domain, and let $u : M \times \mathbb{R}_{\geq 0} \to \mathbb{R}$ be a scalar concentration field evolving over time. The reaction--diffusion equation takes the form
+\begin{equation}
+\label{eq:reaction_diffusion}
+\frac{\partial u}{\partial t} = D\,\Delta u + R(u),
+\end{equation}
+where $\Delta$ is the Laplace--Beltrami operator associated to $g$, $D$ is a diffusion coefficient or diffusion tensor (possibly position-dependent), and $R(u)$ is a nonlinear reaction term encoding local kinetics.
+
+Equation~\eqref{eq:reaction_diffusion} governs the interplay between diffusion—modeled as the intrinsic spread of $u$ over the curved geometry—and reaction dynamics, which may involve thresholds, saturation, or autocatalysis. This structure underlies models of morphogen gradients, Turing instabilities, and tissue-level biochemical regulation.
+
+\subsection{Advection and Geometric Regularization of Navier--Stokes Dynamics}
+\label{subsec:advection_navierstokes}
+
+In many biological systems, scalar fields evolve not only through local chemical reactions or diffusion, but are also transported along ambient flows. This process is described by advection. Let
+\[
+f : M \times \mathbb{R}_{\geq 0} \to \mathbb{R}
+\]
+be a smooth scalar field on a Riemannian manifold $(M, g)$, representing quantities such as morphogen concentration, temperature, nutrient density, or signaling activity. Let $V \in \mathfrak{X}(M)$ be a smooth vector field representing the material flow. The evolution of $f$ under passive transport by $V$ is given by the classical \textbf{advection equation}:
+\begin{equation}
+\label{eq:advection_equation}
+\frac{\partial f}{\partial t} + \mathcal{L}_V f = 0,
+\end{equation}
+where $\mathcal{L}_V f = V(f) = \langle \nabla f, V \rangle$ is the Lie derivative of $f$ along $V$. This expresses the conservation of $f$ along the integral curves of $V$. Equivalently, we write the \textbf{material derivative} condition:
+\begin{equation}
+\label{eq:material_derivative}
+\frac{D f}{D t} := \frac{\partial f}{\partial t} + V(f) = 0,
+\end{equation}
+indicating that $f$ is constant when observed in the frame moving with the flow.
+
+\subsubsection{Connection to Navier--Stokes Dynamics} In fluid mechanics, the velocity field $V$ is not given a priori, but evolves according to the \textbf{Navier--Stokes equations}. In $\mathbb{R}^3$, the incompressible Navier--Stokes system is given by:
+\begin{equation}
+\label{eq:navier_stokes}
+\begin{cases}
+\partial_t V + V \cdot \nabla V = -\nabla p + \nu \Delta V, \\
+\nabla \cdot V = 0,
+\end{cases}
+\end{equation}
+where $p$ is the pressure, $\nu > 0$ is the kinematic viscosity, and the Laplacian $\Delta V$ acts component-wise. The first equation expresses momentum conservation, while the second enforces incompressibility.
+
+The \textbf{Navier--Stokes existence and smoothness problem}, as formulated by the Clay Mathematics Institute, asks:
+
+\begin{quote}
+Given smooth, divergence-free initial data $V_0 \in C^\infty(\mathbb{R}^3)$ with suitable decay, does there exist a unique, globally smooth solution $V(x,t)$ for all $t \geq 0$ to the Navier–Stokes equations on $\mathbb{R}^3$? Or does a finite-time singularity develop?
+\end{quote}
+
+Despite the dissipative nature of the Laplacian term, this problem remains unresolved due to the potential for nonlinear self-amplification of vorticity and singularity formation in finite time.
+
+\textbf{Limitations of Classical Formulation.} The standard formulation of \eqref{eq:navier_stokes} assumes:
+\begin{itemize}
+  \item A Euclidean background geometry $(M = \mathbb{R}^3)$ with global coordinates;
+  \item A strong solution framework based on classical derivatives;
+  \item No intrinsic geometric, topological, or variational constraints on flow configurations.
+\end{itemize}
+Under these assumptions, the nonlinear advection term $V \cdot \nabla V$ can produce sharp gradients and lead to finite-time blowup of vorticity. While the Laplacian $\Delta V$ provides a dissipative smoothing effect, it may be insufficient to control the nonlinear self-interaction of the flow.
+
+Moreover, the functional analytic setting of the problem introduces further challenges. In particular, one considers weak solutions $V \in L^\infty_t L^2_x \cap L^2_t \dot{H}^1_x$ in the sense of Leray~\cite{leray1934mouvement}, where energy is finite but regularity is weak. Such solutions are globally defined, but may not be unique, nor smooth.
+
+The key issues include:
+\begin{itemize}
+  \item \textbf{Gap between weak and strong solutions:} Strong solutions in $H^s$ spaces are unique while they exist, but there is no guarantee of global regularity; weak solutions may exist globally but lack uniqueness or energy conservation.
+  \item \textbf{Critical regularity:} The space $\dot{H}^{\frac{1}{2}}$ is scaling-critical for Navier–Stokes; small data well-posedness exists in some critical Besov or Morrey spaces, but large data theory remains elusive~\cite{koch2001liouville}.
+  \item \textbf{Ill-posedness in borderline spaces:} Tao~\cite{tao2014ns} highlights the supercritical nature of the 3D Navier–Stokes problem and the potential nonexistence of a robust proof strategy in current PDE methods.
+  \item \textbf{Lack of coercivity:} The energy inequality does not tightly control the nonlinear term without additional structure or constraints, allowing high-frequency vorticity amplification.
+\end{itemize}
+
+These limitations suggest the need for a fundamentally new approach—either in geometric structure, variational principle, or PDE formulation. The curvature-constrained flow framework we propose embeds regularity into the geometry of a bundle and may provide a new analytical route by enforcing topological and differential compatibility on the velocity field itself.
+
+
+\subsubsection{Geometric Regularization via Curvature} We propose a novel regularization mechanism in which the dynamics of the velocity field $V$ are constrained not by force balance alone, but by a \textbf{curvature constraint} arising from an associated vector bundle structure.
+
+Let $\mathcal{E} \to M$ be a smooth fiber bundle encoding internal geometric structure (e.g., vorticity, orientation, nematic order). Equip $\mathcal{E}$ with a connection $\nabla^\mathcal{E}$, whose curvature 2-form
+\begin{equation}
+\label{eq:curvature_form}
+\Omega^\mathcal{E}(X, Y) := \left[ \nabla^\mathcal{E}_X, \nabla^\mathcal{E}_Y \right] - \nabla^\mathcal{E}_{[X,Y]}
+\end{equation}
+encodes the failure of horizontal distributions to close under Lie bracket. This curvature captures rotational and topological information inherent to the flow field.
+
+We then impose a \textbf{curvature-constrained flow condition}:
+\begin{equation}
+\label{eq:curvature_constraint}
+\iota_V \Omega^\mathcal{E} = \lambda \, d^\nabla \omega,
+\end{equation}
+where:
+\begin{itemize}
+  \item $\iota_V \Omega^\mathcal{E}$ denotes contraction of the curvature 2-form with the vector field $V$;
+  \item $d^\nabla$ is the covariant exterior derivative;
+  \item $\omega$ is a smooth $\mathcal{E}$-valued 1-form representing internal circulation, twist, or helicity;
+  \item $\lambda$ is a coupling parameter with geometric or physical dimensions.
+\end{itemize}
+
+This relation constrains the allowed second-order structure of $V$ to satisfy a geometric compatibility with the bundle curvature. It can be viewed as a generalized constitutive relation tying vorticity generation to intrinsic geometric rotation.
+
+\textbf{Consequences.} The regularization \eqref{eq:curvature_constraint} has several profound consequences:
+\begin{itemize}
+  \item It replaces the Laplacian term in \eqref{eq:navier_stokes} with a nonlinear, geometry-derived smoothing mechanism;
+  \item It enforces higher regularity of $V$ through differential compatibility;
+  \item It encodes topological conservation laws, such as quantized circulation or bundle holonomy invariants;
+  \item It allows for singular structures (e.g., vortex lines or braids) to be smoothed not by dissipation, but by compatibility with curvature structure.
+\end{itemize}
+
+\subsubsection{Modified Advection Equation} In this setting, scalar fields such as temperature or morphogen concentration are not simply passively advected. Their evolution must respect the geometric structure of the flow. Equation \eqref{eq:advection_equation} becomes:
+\begin{equation}
+\label{eq:advection_curved}
+\frac{\partial f}{\partial t} + \langle \nabla f, V \rangle = 0, \quad \text{subject to } \iota_V \Omega^\mathcal{E} = \lambda \, d^\nabla \omega.
+\end{equation}
+
+The advection equation is no longer autonomous—it must be solved jointly with the curvature constraint on $V$. This converts the flow problem into a coupled geometric PDE system.
+
+\subsubsection{Jet Bundle Reformulation} In jet-theoretic language, the admissible field configurations are constrained to lie in a subbundle:
+\begin{equation}
+\label{eq:jet_bundle_constraint}
+(j^1 f, j^2 V) \in \mathcal{C} \subset J^1(M, \mathbb{R}) \times J^2(M, TM),
+\end{equation}
+where $\mathcal{C}$ encodes the curvature-based constraint \eqref{eq:curvature_constraint}. This provides a precise way to define weak or distributional solutions that respect the geometry of the problem.
+
+\textbf{Biological Applications.} In biological systems, curvature-regularized advection applies to:
+\begin{itemize}
+  \item \textbf{Tissue flows with embedded fiber orientation} (e.g., actomyosin networks, epithelial sheets);
+  \item \textbf{Active nematic systems} with topological defect constraints;
+  \item \textbf{Protein or signal transport} on deforming or non-Euclidean membranes;
+  \item \textbf{Geometrically-coupled morphogen gradients} with curvature-mediated pattern localization.
+\end{itemize}
+
+By embedding fluid flow into a fiber bundle geometry and constraining its evolution via curvature compatibility, we propose a new route to resolving the singularity and existence problem posed by the classical Navier--Stokes equations. This geometric approach provides a natural language for coupling flow, structure, and transport in both physical and biological systems, potentially yielding a regular, topologically controlled theory of hydrodynamics on manifolds.
+
+
+
+\subsection{Geometric Measures and Conservation Laws on Manifolds}
+
+To rigorously formulate transport and conservation laws in biological systems modeled on manifolds, we must introduce a measure-theoretic framework compatible with the geometry. Scalar fields such as concentrations, densities, or morphogens must often be interpreted not merely as pointwise functions, but as quantities integrated against a volume form or transported as distributions.
+
+\subsubsection{Riemannian Volume Measures}
+\label{subsec:riemannian_volume}
+
+Let $(M, g)$ be an oriented Riemannian manifold of dimension $n$. The metric $g$ determines a \textbf{canonical volume form}---a smooth, nowhere-vanishing differential $n$-form---denoted
+\begin{equation}
+\label{eq:volume_form}
+dV_g = \sqrt{|g|} \, dx^1 \wedge dx^2 \wedge \cdots \wedge dx^n,
+\end{equation}
+where $(x^1, \dots, x^n)$ is any local coordinate chart and $|g| = \det(g_{ij})$ is the determinant of the metric tensor $g$ in those coordinates.
+
+The wedge product
+\begin{equation}
+\label{eq:wedge_product}
+dx^1 \wedge dx^2 \wedge \cdots \wedge dx^n
+\end{equation}
+is the standard generator of the space of top-degree differential forms in a coordinate patch. It is \textbf{totally antisymmetric}, multilinear, and spans the module $\Omega^n(U)$ of smooth $n$-forms over an open set $U \subseteq M$. It satisfies the alternating property
+\begin{equation}
+\label{eq:alternating}
+dx^i \wedge dx^j = -dx^j \wedge dx^i, \quad \text{and} \quad dx^i \wedge dx^i = 0,
+\end{equation}
+ensuring that any $n$-form can be written uniquely as a scalar multiple of \eqref{eq:wedge_product}.
+
+The factor $\sqrt{|g|}$ ensures that the volume form transforms properly under coordinate changes. If $\phi : U \to \tilde{U}$ is a smooth change of coordinates with Jacobian matrix $J = \partial \tilde{x}^i / \partial x^j$, then under pullback,
+\begin{equation}
+\label{eq:pullback_wedge}
+\phi^*\left(d\tilde{x}^1 \wedge \cdots \wedge d\tilde{x}^n\right) = \det(J) \cdot dx^1 \wedge \cdots \wedge dx^n,
+\end{equation}
+and the Riemannian volume form transforms as
+\begin{equation}
+\label{eq:volume_change}
+\phi^*\left( \sqrt{|\tilde{g}|} \, d\tilde{x}^1 \wedge \cdots \wedge d\tilde{x}^n \right) = \sqrt{|g|} \, dx^1 \wedge \cdots \wedge dx^n.
+\end{equation}
+This confirms that $dV_g$ is a \textbf{globally well-defined} top-degree form on $M$.
+
+As a result, $dV_g$ defines a canonical Radon measure $\mu_g$ on Borel subsets of $M$, enabling coordinate-invariant integration of scalar fields:
+\begin{equation}
+\label{eq:volume_integral}
+\int_M f \, d\mu_g := \int_M f \, dV_g.
+\end{equation}
+
+From an algebraic perspective, the space $\Omega^n(M)$ of smooth $n$-forms is a module over $C^\infty(M)$, and the volume form $dV_g$ is a generator of this module when $M$ is oriented. That is, for any smooth scalar field $f : M \to \mathbb{R}$, the product
+\begin{equation}
+\label{eq:form_embedding}
+f \mapsto f \cdot dV_g \in \Omega^n(M)
+\end{equation}
+embeds $f$ as a volume density. Integration is then realized as a functional
+\begin{equation}
+\label{eq:integration_functional}
+\int_M : \Omega^n(M) \to \mathbb{R},
+\end{equation}
+satisfying linearity, locality, and orientation reversal properties.
+
+{\textbf{Aha: Coordinate Invariance via the Jacobian and Metric}}
+
+To illustrate the power of the construction, consider a scalar field $f$ defined on $M$, and suppose a coordinate transformation $\phi : x \mapsto \tilde{x}(x)$ is applied. Naively, one might expect the integrand to pick up a factor of the Jacobian determinant:
+\[
+\int_M f(x) \, dx^1 \cdots dx^n \longrightarrow \int_M f(\phi^{-1}(\tilde{x})) \, \left| \det \left( \frac{\partial x}{\partial \tilde{x}} \right) \right| \, d\tilde{x}^1 \cdots d\tilde{x}^n.
+\]
+However, if one instead computes the integral in terms of the Riemannian volume form $dV_g$, then the metric determinant $|g|$ absorbs and cancels the Jacobian appropriately:
+\[
+\sqrt{|\tilde{g}(\tilde{x})|} \cdot \left| \det \left( \frac{\partial \tilde{x}}{\partial x} \right) \right| = \sqrt{|g(x)|},
+\]
+ensuring that
+\begin{equation}
+\label{eq:coordinate_invariance}
+\int_M f(x) \, \sqrt{|g(x)|} \, dx^1 \cdots dx^n = \int_M f(\phi^{-1}(\tilde{x})) \, \sqrt{|\tilde{g}(\tilde{x})|} \, d\tilde{x}^1 \cdots d\tilde{x}^n.
+\end{equation}
+This invariance property is what guarantees that biological integrals, such as total morphogen mass or energy, remain consistent across coordinate charts---a fundamental requirement when integrating over deforming or nontrivial geometries.
+
+{\textbf{Application in Biological Systems}}
+
+In biological modeling, the volume form $dV_g$ allows one to integrate scalar fields such as:
+\begin{itemize}
+\item Cell or particle densities (e.g., $\rho(x)$),
+\item Morphogen concentrations (e.g., $c(x)$),
+\item Energy or signal strength distributions,
+\end{itemize}
+over curved tissue domains or membranes in a geometrically consistent manner. It is the essential object coupling geometry to field theory. Conservation laws, flux integrals, and variational formulations all rely on $dV_g$ to mediate between local quantities and global measurements.
+
+This apparatus also supports extensions to manifolds with boundaries (via Stokes' theorem), to differential forms of lower degree (via the Hodge star), and to non-orientable cases (via the bundle of densities), all of which are natural next steps in a general geometric theory of biological dynamics.
+
+
+\subsubsection{Continuity Equation and Reynolds Transport}
+\label{subsec:continuity_reynolds}
+
+Let $f_t : M \to \mathbb{R}$ be a time-dependent scalar field on a Riemannian manifold $(M, g)$, interpreted as a density field (e.g., mass, concentration, or energy). Let $V \in \mathfrak{X}(M)$ be a smooth vector field representing a velocity field that generates a flow $\phi_t : M \to M$. For a fixed subregion $U \subset M$, the evolution of the total quantity of $f$ over $U$ is given by the \textbf{Reynolds transport theorem}:
+\begin{equation}
+\label{eq:reynolds_transport}
+\frac{d}{dt} \int_U f_t \, d\mu_g = \int_U \left( \frac{\partial f_t}{\partial t} + \operatorname{div}(f_t V) \right) d\mu_g.
+\end{equation}
+
+This expression accounts for both temporal change of $f$ at fixed points and spatial transport induced by the vector field $V$. When the quantity $f$ is conserved under the flow, the integrand must vanish pointwise:
+\begin{equation}
+\label{eq:strong_continuity}
+\frac{\partial f}{\partial t} + \operatorname{div}(f V) = 0.
+\end{equation}
+This is the \textbf{continuity equation} in its strong form. It generalizes the classical advection equation
+\[
+\frac{\partial f}{\partial t} + V(f) = 0
+\]
+by accounting for volume distortion in the ambient geometry via the divergence operator.
+
+\textbf{Coordinate Expression.} In local coordinates $(x^i)$ and using the Riemannian volume form $d\mu_g = \sqrt{|g|} \, dx^1 \cdots dx^n$, Equation~\eqref{eq:strong_continuity} becomes
+\begin{equation}
+\label{eq:local_continuity}
+\frac{\partial f}{\partial t} + \frac{1}{\sqrt{|g|}} \partial_i\left( \sqrt{|g|} \, f V^i \right) = 0.
+\end{equation}
+This expression highlights the dependence of the flow on the geometry of the manifold. In particular, the factor $\sqrt{|g|}$ reflects local volume distortion under coordinate change.
+
+\textbf{Integral Formulation and Weak Solutions.} Conservation laws are more generally understood in their weak (distributional) form. Let $\varphi \in C_c^\infty(M \times \mathbb{R}_{\geq 0})$ be a test function. Multiplying \eqref{eq:strong_continuity} by $\varphi$ and integrating over spacetime, one obtains:
+\begin{equation}
+\label{eq:weak_continuity}
+\int_{\mathbb{R}_{\geq 0}} \int_M f \left( \frac{\partial \varphi}{\partial t} + \mathcal{L}_V \varphi \right) \, d\mu_g \, dt = 0,
+\end{equation}
+where $\mathcal{L}_V \varphi = V(\varphi)$ is the Lie derivative along $V$. This weak form supports interpretation of $f$ as a measure or distribution and is essential in singular settings (e.g., shocks, interfaces, or topological defects).
+
+\textbf{Geometric Insight and Fluid Interpretation.} In fluid mechanics, Equation~\eqref{eq:strong_continuity} expresses the local balance of mass for an incompressible or compressible medium. If the flow $V$ is divergence-free, i.e.,
+\[
+\operatorname{div} V = 0,
+\]
+then the continuity equation simplifies to the transport equation:
+\[
+\frac{\partial f}{\partial t} + V(f) = 0,
+\]
+indicating that $f$ is passively advected by the velocity field. This case models incompressible fluids where volume is preserved along flow lines.
+
+\textbf{Toward Geometric Regularization of Navier--Stokes.} In the context of fluid dynamics, the continuity equation forms one component of the full Navier--Stokes system. In geometric settings, one may seek regularized dynamics in which:
+\begin{itemize}
+  \item $f$ is a density on a bundle or sheaf over $M$;
+  \item $V$ is constrained to preserve geometric or topological structures (e.g., symplectic, volume-preserving, or curvature-aligned flows);
+  \item The divergence is replaced by a covariant divergence with respect to a connection on a fiber bundle;
+  \item Fluxes are controlled by higher-order operators (e.g., horizontal Laplacians, sub-Riemannian diffusion).
+\end{itemize}
+
+In such regularized models, the continuity equation \eqref{eq:strong_continuity} may be modified to include bundle curvature, nontrivial connections, or defect transport. These formulations offer a pathway to resolving singularities in classical fluid models by encoding dissipation, reconnection, and topological charge conservation as intrinsic geometric invariants.
+
+
+\subsubsection{Pushforward and Flow of Measures}
+\label{subsec:pushforward_measures}
+
+\begin{definition}[Flow Map]
+Let $V \in \mathfrak{X}(M)$ be a smooth vector field on a manifold $M$. The associated flow map $\phi_t : M \to M$ is the solution to the initial value problem
+\begin{equation}
+\label{eq:flow_ode}
+\frac{d}{dt} \phi_t(x) = V(\phi_t(x)), \quad \phi_0(x) = x.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Pushforward of a Measure]
+Let $\nu_0 \in \mathcal{M}(M)$ be a Radon measure on $M$. The pushforward of $\nu_0$ under the flow map $\phi_t$ is the measure $\nu_t$ defined by
+\begin{equation}
+\label{eq:pushforward_def}
+\nu_t := (\phi_t)_\# \nu_0.
+\end{equation}
+For any test function $\varphi \in C_c^\infty(M)$, the pushforward satisfies the duality relation
+\begin{equation}
+\label{eq:pushforward_identity}
+\int_M \varphi \, d\nu_t = \int_M \varphi \circ \phi_t \, d\nu_0.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Linearity and Positivity Preservation]
+Let $\nu_0, \mu_0 \in \mathcal{M}^+(M)$ be Radon measures, and $\alpha, \beta \in \mathbb{R}_{\geq 0}$. Then
+\begin{equation}
+(\phi_t)_\#(\alpha \nu_0 + \beta \mu_0) = \alpha \, (\phi_t)_\#\nu_0 + \beta \, (\phi_t)_\#\mu_0.
+\end{equation}
+\end{lemma}
+
+\begin{lemma}[Support Propagation]
+Let $\mathrm{supp}(\nu_0) \subset M$ denote the support of the initial measure. Then
+\begin{equation}
+\mathrm{supp}(\nu_t) \subset \phi_t(\mathrm{supp}(\nu_0)).
+\end{equation}
+\end{lemma}
+
+\begin{example}[Absolutely Continuous Case]
+If $\nu_0 = f_0 \, d\mu_g$ for $f_0 \in L^1(M)$, then $\nu_t = f_t \, d\mu_g$ satisfies
+\begin{equation}
+\int_M \varphi \, f_t \, d\mu_g = \int_M \varphi \circ \phi_t \, f_0 \, d\mu_g.
+\end{equation}
+\end{example}
+
+\begin{corollary}[Conservation Along Flow Lines]
+For any $\varphi \in C_c^\infty(M)$ and $\nu_t = (\phi_t)_\# \nu_0$,
+\begin{equation}
+\frac{d}{dt} \int_M \varphi \, d\nu_t = \int_M V(\varphi) \circ \phi_t \, d\nu_0.
+\end{equation}
+\end{corollary}
+
+\begin{definition}[Measure Transport Law]
+The evolution of $\nu_t$ under flow satisfies the measure transport equation:
+\begin{equation}
+\label{eq:measure_transport_equation}
+\frac{d\nu_t}{dt} + \operatorname{div}(V \nu_t) = 0
+\end{equation}
+in the distributional sense: for all $\varphi \in C_c^\infty(M)$,
+\begin{equation}
+\frac{d}{dt} \int_M \varphi \, d\nu_t = \int_M V(\varphi) \, d\nu_t.
+\end{equation}
+\end{definition}
+
+
+\subsubsection{Weak Formulation and Measure-Valued Transport}
+\label{subsec:weak_transport}
+
+Equation~\eqref{eq:strong_continuity} admits a weak formulation suitable for distributional and measure-valued solutions. Let $f_t : M \to \mathbb{R}$ be a time-dependent scalar field on a Riemannian manifold $(M, g)$, and let $V \in \mathfrak{X}(M)$ be a smooth velocity field generating a flow $\phi_t : M \to M$. For any test function $\varphi \in C_c^\infty(M)$, the weak formulation of the continuity equation is:
+\begin{equation}
+\label{eq:weak_transport}
+\frac{d}{dt} \int_M \varphi \, f_t \, d\mu_g = \int_M \mathcal{L}_V \varphi \cdot f_t \, d\mu_g,
+\end{equation}
+where $\mathcal{L}_V \varphi = V(\varphi)$ denotes the Lie derivative of the test function along $V$.
+
+Equation~\eqref{eq:weak_transport} is obtained by integrating the strong form
+\[
+\frac{\partial f_t}{\partial t} + \operatorname{div}(f_t V) = 0
+\]
+against $\varphi$ and using integration by parts (in the sense of distributions), thereby transferring derivatives to the test function. This weak form is valid even when $f_t$ lacks differentiability, extending naturally to the setting of Radon measures and distributional densities.
+
+In many biological applications, particularly in developmental biology or tissue mechanics, it is natural to treat $f_t$ not as a classical function but as a \emph{measure-valued field}. Let $\nu_t \in \mathcal{M}^+(M)$ denote a family of nonnegative Radon measures. The weak form of the continuity equation generalizes to:
+\begin{equation}
+\label{eq:measure_transport}
+\frac{d}{dt} \int_M \varphi \, d\nu_t = \int_M \mathcal{L}_V \varphi \, d\nu_t,
+\end{equation}
+for all $\varphi \in C_c^\infty(M)$. This is the distributional transport law:
+\[
+\frac{d\nu_t}{dt} + \operatorname{div}(V \nu_t) = 0
+\]
+understood in the sense of distributions. The evolution of $\nu_t$ is entirely determined by the pushforward:
+\[
+\nu_t = (\phi_t)_\# \nu_0,
+\]
+meaning that for all test functions $\varphi$,
+\[
+\int_M \varphi \, d\nu_t = \int_M \varphi \circ \phi_t \, d\nu_0.
+\]
+
+This formulation is essential in modeling:
+\begin{itemize}
+  \item Sharp morphogen gradients or interfaces in tissue development;
+  \item Localized signaling sources (e.g., organ primordia);
+  \item Topological defects and singular structures in biological flows.
+\end{itemize}
+It enables a rigorous theory of conservation and propagation even when classical solutions fail to exist.
+
+The measure-theoretic transport equation~\eqref{eq:measure_transport} forms the foundation for subsequent variational models and field theories over manifolds, where action functionals are expressed in terms of integrals over $d\mu_g$ and constraints are imposed via geometric compatibility or bundle curvature.
+
+
+\subsubsection*{Foundations for Variational Field Theories}
+
+The measure-theoretic formalism presented here provides the analytic and geometric foundation for variational formulations on manifolds. In subsequent sections, we will interpret biological action functionals as integrals of Lagrangian densities over $d\mu_g$, and derive field equations by applying the calculus of variations to measure-valued fields defined over jet bundles.
+
